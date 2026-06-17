@@ -312,7 +312,7 @@ fn buffered_write_to_file<V: View>(
     let parent = path.parent().unwrap_or_else(|| Path::new("."));
     let temp = tempfile::NamedTempFile::new_in(parent)?;
 
-    temp.as_file().set_len(total_size as u64)?;
+    let _ = temp.as_file().set_len(total_size as u64);
 
     // Serialize tensors to a file using direct I/O (bypassing page cache) using F_NOCACHE.
     // This yields ~30% performance improvement.
